@@ -1,0 +1,43 @@
+{% extends 'main.html' %}
+{% block content %}
+    <table class="table table-bordered">
+        <tr>
+            <th></th>
+            <th>Service</th>
+            <th>Room</th>
+            <th>Master</th>
+            <th>Time</th>
+            <th>Price</th>
+            <th></th>
+        </tr>
+        {% if data.data %}
+            {% for item in data.data %}
+                <tr>
+                    <td>{{ item.id }}    </td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.room }}</td>
+                    <td>{{ item.master }}</td>
+                    <td>{{ item.time }}</td>
+                    <td>{{ item.price }}</td>
+                </tr>
+            {% endfor %}
+        {% endif %}
+    </table>
+    <h2 class="text-success">Всего :{{ data.price }}</h2>
+
+    <div class="container">
+        <div class="col-md-12">
+            <form method="post" action="/create_order?price={{ data.price }}">
+            {{ wtf.quick_form(form) }}
+            </form>
+        </div>
+    </div>
+    <div class="container">
+           <div class="col-md-6">
+            <form method="post" action="/create_order?reject=1">
+                <button class="btn btn-danger">Oтменить заказ</button>
+            </form>
+        </div>
+    </div>
+
+{% endblock content %}

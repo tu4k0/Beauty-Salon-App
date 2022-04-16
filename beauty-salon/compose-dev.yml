@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+  web:
+    image: "barber:develop"
+    container_name: barber_web_1
+    command: bash -c "python3 app/main.py"
+    ports:
+      - "8008:8008"
+    volumes:
+      - ./barber/:/barber/
+    restart: always
+    environment:
+      DB_ACCESS: "dbname=barber user=barber password=barber port=5432 host=db"
+    depends_on:
+      - db
+  db:
+    image: postgres:9.6
+    restart: always
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5431:5432"
+    environment:
+      LC_ALL: "en_US.UTF-8"
+      LC_CTYPE: "en_US.UTF-8"
+      POSTGRES_PASSWORD: "barber"
+      POSTGRES_USER: "barber"
+      POSTGRES_DB: "barber"
+      PGDATA: "/var/lib/postgresql/data/db/"
+
+
+volumes:
+    postgres_data:
+    barber:
